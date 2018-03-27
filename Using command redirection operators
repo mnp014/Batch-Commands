@@ -1,0 +1,87 @@
+
+Handle    |	Numeric equivalent of handle	|Description
+----------|-------------------------------|----------------------------------------------------------------------------------------
+STDIN     |   0                           |Keyboard input
+STDOUT    |   1                           |Output to the Command Prompt window
+STDERR    |   2                           |Error output to the Command Prompt window
+UNDEFINED |   3-9                         |Handles are defined individually by the application and are specific to each tool
+___________________________________________________________________________________________________________________________________
+      EXAMPLE:   2>&1  // This command redirects handle 2 (that is, STDERR) into handle 1 (that is, STDOUT)
+
+___________________________________________________________________________________________________________________________________
+Redirection  |Description
+operator	   | 
+-------------|---------------------------------------------------------------------------------------------------------------------
+>            |Writes the command output to a file or a device, such as a printer, instead of the Command Prompt window or a handle.
+<            |Reads the command input from a file, instead of reading input from the keyboard or a handle.
+>>           |Appends the command output to the end of a file without deleting the information that is already in the file.
+>&           |Writes the output from one handle to the input of another handle.
+<&           |Reads the input from one handle and writes it to the output of another handle.
+|            |Reads the output from one command and writes it to the input of another command. Also known as a pipe.
+___________________________________________________________________________________________________________________________________
+Redirecting input (<)
+      sort<file.txt
+-----------------------------------------------------------------------------------------------------------------------------------      
+Redirecting output (>)
+      #1  dir>dirlist.txt
+      #2  To run the netsh routing dump command and then send the output to Route.cfg, type:
+              netsh routing dump>c:\route.cfg      
+-----------------------------------------------------------------------------------------------------------------------------------              
+Duplicating handles
+      dir>c:\file.txt 2>&1
+-----------------------------------------------------------------------------------------------------------------------------------      
+Using the & operator to redirect input and duplicate      
+      #1  For example, to open File.txt as input read to handle 0 (that is, STDIN), type:
+              < file.txt
+      #2  To open File.txt, sort the contents, and then send the output to the Command Prompt window (that is, STDOUT), type:
+              sort< file.txt
+      #3  To find File.txt, and then redirect handle 1 (that is, STDOUT) and handle 2 (that is, STDERR) to the Search.txt, type:
+              findfile file.txt>search.txt 2<&1
+      #4  To duplicate a user-defined handle 3 as input read to handle 0 (that is, STDIN), type:
+              <&3
+-----------------------------------------------------------------------------------------------------------------------------------
+Using the & operator to redirect output and duplicate        
+      #1  To duplicate a user-defined handle 3 into handle 1, type:
+      
+              >&3
+              
+      #2  To redirect all of the output, including handle 2 (that is, STDERR), from the ipconfig command to handle 1 (that is, STDOUT), 
+          and then redirect the output to Output.log, type:
+          
+              ipconfig.exe>>output.log 2>&1
+-----------------------------------------------------------------------------------------------------------------------------------
+Using the >> redirection operator to append output
+      #1  To add the output from a command to the end of a file without losing any of the information already in the file,
+          use two consecutive greater than signs (that is, >>). For example, the following command appends the directory list produced by
+          the dir command to the Dirlist.txt file:
+          
+              dir>>dirlist.txt
+              
+      #2 To append the output of the netstat command to the end of Tcpinfo.txt, type:
+      
+              netstat>>tcpinfo.txt
+-----------------------------------------------------------------------------------------------------------------------------------
+Using the pipe operator (|)
+              dir | sort
+      In this example, both commands start simultaneously, but then the sort command pauses until it receives the dir command's output.
+      The sort command uses the dir command's output as its input, and then sends its output to handle 1 (that is, STDOUT).
+-----------------------------------------------------------------------------------------------------------------------------------
+Combining commands with redirection operators
+        You can create custom commands by combining filter commands with other commands and file names.
+      For example, you can use the following command to store the names of files that contain the string "LOG":
+      
+              dir /b | find "log" loglist.txt
+      
+        The dir command's output is sent through the find filter command. 
+      File names that contain the string "LOG" are stored as a list of file names (for example, 
+      NetshConfig.log, Logdat.svd, and Mylog.bat) in the Loglist.txt file.
+      To use more than one filter in the same command, separate the filters with a pipe (|). 
+      For example, the following command searches every directory on drive C:, 
+      finds the file names that include the string "Log", and then displays them in one Command Prompt window at a time:
+      
+              dir c:\ /s /b | find "log" | more
+      
+        By using a pipe (|), you direct Cmd.exe to send the dir command output through the find filter command.
+      The find command selects only file names that contain the string "LOG." 
+      The more command displays the file names that are selected by the find command,
+      one Command Prompt window at a time. For more information about filter commands, see Using filters.
