@@ -1,0 +1,16 @@
+Command	   Description
+-------    -------------------------------------------------------------------------------------------------
+More   :   Displays the contents of a file or the output of a command in one Command Prompt window at a time.
+
+                more < list.txt
+_____________________________________________________________________________________________________________
+Find   :   Searches through files and command output for the characters you specify.
+
+                find "Pacific Rim" < trade.txt
+_____________________________________________________________________________________________________________
+Sort   :   Alphabetizes files and command output.
+
+                sort < list.txt
+                sort < list.txt > alphlist.txt          // alphabetizes the lines of the List.txt file and stores the results in the Alphlist.txt file:
+                find "Jones" maillst.txt | sort         //find command output) in alphabetical order:
+_____________________________________________________________________________________________________________
